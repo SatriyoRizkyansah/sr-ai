@@ -21,9 +21,85 @@ export class OpenAIProvider implements LlmProvider {
   private defaultModel: string;
 
   constructor() {
-    this.baseUrl = process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
+    this.baseUrl = process.env.OPENAI_BASE_URL || '';
+    // this.baseUrl = process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
     this.apiKey = process.env.OPENAI_API_KEY || '';
-    this.defaultModel = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    // this.defaultModel = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    this.defaultModel = process.env.OPENAI_MODEL || '';
+  }
+
+  private parseJsonResponse<T>(raw: string): T {
+    try {
+      return JSON.parse(raw) as T;
+    } catch {
+      const startIndex = raw.search(/[\[{]/);
+      if (startIndex >= 0) {
+        const jsonSlice = this.extractFirstJsonValue(raw.slice(startIndex));
+        if (jsonSlice) {
+          try {
+            return JSON.parse(jsonSlice) as T;
+          } catch {
+            // fall through to the error below
+          }
+        }
+      }
+
+      throw new Error(`OpenAI API returned invalid JSON: ${raw.slice(0, 500)}`);
+    }
+  }
+
+  private extractFirstJsonValue(input: string): string | null {
+    const opening = input[0];
+    if (opening !== '{' && opening !== '[') {
+      return null;
+    }
+
+    const stack: string[] = [];
+    let inString = false;
+    let escaped = false;
+
+    for (let index = 0; index < input.length; index += 1) {
+      const char = input[index];
+
+      if (inString) {
+        if (escaped) {
+          escaped = false;
+        } else if (char === '\\') {
+          escaped = true;
+        } else if (char === '"') {
+          inString = false;
+        }
+        continue;
+      }
+
+      if (char === '"') {
+        inString = true;
+        continue;
+      }
+
+      if (char === '{' || char === '[') {
+        stack.push(char);
+        continue;
+      }
+
+      if (char === '}' || char === ']') {
+        const last = stack.pop();
+        if (!last) {
+          return null;
+        }
+
+        const matches = (last === '{' && char === '}') || (last === '[' && char === ']');
+        if (!matches) {
+          return null;
+        }
+
+        if (stack.length === 0) {
+          return input.slice(0, index + 1);
+        }
+      }
+    }
+
+    return null;
   }
 
   async generateChat(messages: { role: string; content: string }[], options?: ChatOptions): Promise<ChatResponse> {
@@ -48,7 +124,8 @@ export class OpenAIProvider implements LlmProvider {
       throw new Error(`OpenAI API error: ${res.status} ${err}`);
     }
 
-    const data: OpenAiResponse = await res.json();
+    const raw = await res.text();
+    const data = this.parseJsonResponse<OpenAiResponse>(raw);
     return {
       content: data.choices[0]?.message?.content || '',
       model: data.model,
@@ -78,7 +155,8 @@ export class OpenAIProvider implements LlmProvider {
       throw new Error(`OpenAI Embedding API error: ${res.status} ${err}`);
     }
 
-    const data: OpenAiEmbeddingResponse = await res.json();
+    const raw = await res.text();
+    const data = this.parseJsonResponse<OpenAiEmbeddingResponse>(raw);
     return data.data[0]?.embedding || [];
   }
 }

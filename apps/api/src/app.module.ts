@@ -7,9 +7,10 @@ import { UsersModule } from './users/users.module';
 import { DocumentsModule } from './documents/documents.module';
 import { ChatModule } from './chat/chat.module';
 import { AiModule } from './ai/ai.module';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule, DocumentsModule, ChatModule, AiModule],
+  imports: [PrismaModule, AuthModule, UsersModule, DocumentsModule, ChatModule, AiModule, LoggerModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -45,7 +45,7 @@ model Document {
 model DocumentChunk {
   id         String   @id @default(uuid())
   content    String
-  embedding  Unsupported("vector(1536)")
+  embedding  String?  // JSON array of floats, e.g. "[0.001, -0.002, ...]"
   pageNumber Int?
   metadata   Json?
   documentId String
@@ -54,7 +54,6 @@ model DocumentChunk {
   document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@index([documentId])
-  @@index([embedding], type: BTree)
 }
 
 model ChatSession {

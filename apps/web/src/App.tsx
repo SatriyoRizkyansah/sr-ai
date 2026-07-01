@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ProtectedRoute from './components/ProtectedRoute';
+import LogPanel from './components/LogPanel';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ChatPage from './pages/ChatPage';
 import DocumentsPage from './pages/DocumentsPage';
+import SettingsPage from './pages/SettingsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,22 +27,13 @@ function App() {
               <Route index element={<Navigate to="/dashboard/chat" replace />} />
               <Route path="chat" element={<ChatPage />} />
               <Route path="documents" element={<DocumentsPage />} />
-              <Route
-                path="settings"
-                element={
-                  <div className="flex items-center justify-center h-full text-gray-400">
-                    <div className="text-center">
-                      <div className="text-6xl mb-4">⚙️</div>
-                      <p className="text-lg text-gray-500">Settings Coming Soon</p>
-                    </div>
-                  </div>
-                }
-              />
+              <Route path="settings" element={<SettingsPage />} />
             </Route>
           </Route>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
+        <LogPanel />
       </BrowserRouter>
     </QueryClientProvider>
   );
