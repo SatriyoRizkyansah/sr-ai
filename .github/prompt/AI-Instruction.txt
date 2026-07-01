@@ -1,0 +1,458 @@
+﻿You are a senior principal software engineer and system architect.
+
+Your task is to design and generate a production-ready fullstack monorepo application called:
+
+# 🎯 PROJECT
+
+AI Document Assistant (DocMind AI)
+
+An AI-powered document assistant that allows users to upload documents and chat with them using Retrieval-Augmented Generation (RAG).
+
+The application should support:
+
+- PDF
+- DOCX
+- TXT
+- Markdown
+- Website content (future-ready)
+
+Users should be able to ask natural language questions about uploaded documents and receive accurate, source-grounded answers with citations.
+
+The system MUST use Retrieval-Augmented Generation (RAG).
+
+---
+
+# 🏗️ TECH STACK (STRICT)
+
+## Monorepo
+
+- TurboRepo
+- pnpm workspace
+
+---
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- TailwindCSS
+- Zustand
+- TanStack Query
+- React Router
+- Axios
+
+---
+
+## Backend
+
+- NestJS
+- Prisma ORM
+- PostgreSQL
+- pgvector
+- REST API
+
+The backend is responsible for BOTH business logic and AI orchestration.
+
+DO NOT create a separate Python/FastAPI service.
+
+---
+
+## AI Integration
+
+The NestJS backend MUST contain a dedicated AI module responsible for:
+
+- document ingestion
+- chunking
+- embedding generation
+- vector search
+- prompt building
+- LLM orchestration
+- streaming responses
+
+Use an OpenAI-compatible API provider.
+
+Assume the LLM provider can later be switched between:
+
+- Groq
+- OpenAI
+- Gemini
+- Ollama
+
+Use a Provider Pattern so switching providers requires minimal code changes.
+
+---
+
+## Infrastructure
+
+- PostgreSQL
+- Redis
+- Docker
+- Docker Compose
+
+---
+
+# 🧠 CORE FEATURES
+
+## Authentication
+
+- JWT Authentication
+- Refresh Token
+- Role-based Authorization
+
+Roles:
+
+- User
+- Admin
+
+---
+
+## Document Management
+
+Users can:
+
+- upload documents
+- view uploaded documents
+- delete documents
+- organize documents
+
+Admin can:
+
+- manage all documents
+- monitor processing status
+
+Supported formats:
+
+- PDF
+- DOCX
+- TXT
+
+Each uploaded document must automatically:
+
+- extract text
+- split into chunks
+- generate embeddings
+- store vectors
+- become searchable
+
+---
+
+## Chat
+
+Support:
+
+- streaming responses
+- multi-session chat
+- conversation history
+- markdown rendering
+
+Each answer MUST include:
+
+- cited document
+- page number (if available)
+- chunk reference
+
+---
+
+## Retrieval-Augmented Generation
+
+Pipeline:
+
+Upload Document
+
+↓
+
+Extract Text
+
+↓
+
+Chunking
+
+↓
+
+Embedding Generation
+
+↓
+
+Store Vector
+
+↓
+
+Similarity Search
+
+↓
+
+Prompt Construction
+
+↓
+
+LLM
+
+↓
+
+Streaming Response
+
+---
+
+# 🧠 AI MODULE
+
+Inside NestJS create:
+
+modules/
+
+    ai/
+
+        providers/
+
+        embeddings/
+
+        prompt/
+
+        rag/
+
+        llm/
+
+Responsibilities:
+
+- generate embeddings
+- retrieve relevant chunks
+- build prompt context
+- call LLM API
+- stream responses
+- generate citations
+
+The AI module MUST follow Dependency Injection principles.
+
+Business modules should NEVER call external LLM APIs directly.
+
+Everything goes through AIService.
+
+---
+
+# 🧱 BACKEND ARCHITECTURE
+
+Use Clean Architecture.
+
+Structure:
+
+modules/
+
+    auth/
+
+    users/
+
+    documents/
+
+    chat/
+
+    ai/
+
+Each module contains:
+
+- controller
+- service
+- repository
+- dto
+- mapper (optional)
+
+Controllers must contain ZERO business logic.
+
+Repositories are the ONLY layer allowed to access Prisma.
+
+---
+
+# 🗂️ FRONTEND
+
+Feature-based architecture.
+
+src/
+
+    features/
+
+        auth/
+
+        chat/
+
+        documents/
+
+        settings/
+
+    components/
+
+    hooks/
+
+    services/
+
+    routes/
+
+    layouts/
+
+Rules:
+
+- reusable UI
+- no API calls inside components
+- hooks manage server state
+- Zustand manages client state
+
+---
+
+# 🧠 RAG REQUIREMENTS
+
+Every answer MUST:
+
+- use retrieved document chunks
+- avoid hallucination
+- include citations
+- return fallback message when context is insufficient
+
+Fallback:
+
+"I don't have enough information from the uploaded documents."
+
+Chunking:
+
+- semantic preferred
+- 500–1000 tokens
+
+Retrieval:
+
+- Top-K similarity search
+
+Vector database:
+
+PostgreSQL + pgvector
+
+---
+
+# 🧩 DATABASE (PRISMA)
+
+Include:
+
+users
+
+roles
+
+documents
+
+document_chunks
+
+chat_sessions
+
+messages
+
+audit_logs
+
+DocumentChunk should contain:
+
+- content
+- embedding (Vector)
+- page_number
+- metadata
+
+Do NOT create a separate embeddings table.
+
+Store vectors directly inside document_chunks.
+
+---
+
+# 🔐 SECURITY
+
+- sanitize input
+- validate uploads
+- file type validation
+- rate limiting
+- JWT
+- RBAC
+- prompt injection protection
+- secure environment variables
+
+---
+
+# 🧪 TESTING
+
+- NestJS Unit Tests
+- Integration Tests
+- React Testing Library
+- Basic E2E examples
+
+---
+
+# 🐳 DOCKER
+
+Generate:
+
+docker-compose.yml
+
+Services:
+
+- frontend
+- backend
+- postgres
+- redis
+
+No Python container.
+
+---
+
+# 📦 OUTPUT REQUIREMENTS
+
+Generate:
+
+1. Architecture overview
+2. Monorepo structure
+3. NestJS backend
+4. React frontend
+5. Prisma schema
+6. Docker setup
+7. Seed data
+8. End-to-end RAG flow
+9. Environment variables
+10. Development run instructions
+
+---
+
+# ⚙️ CODING STANDARDS
+
+- TypeScript Strict Mode
+- SOLID Principles
+- Clean Architecture
+- Repository Pattern
+- Dependency Injection
+- Reusable Components
+- Modular Design
+- Production-ready Folder Structure
+
+---
+
+# 🚀 GOAL
+
+Build a production-ready AI Document Assistant that:
+
+- allows users to upload documents
+- indexes documents using RAG
+- answers questions using retrieved context
+- streams AI responses
+- cites document sources
+- supports future scaling
+- follows real-world software engineering best practices
+
+---
+
+# 📌 IMPORTANT
+
+Act as a Senior Principal Software Architect.
+
+If an engineering decision is ambiguous, choose the approach most suitable for a scalable production system.
+
+Generate the project incrementally in this order:
+
+1. Architecture Overview
+2. Monorepo Structure
+3. Database Design
+4. Backend (NestJS)
+5. AI Module
+6. Frontend
+7. Docker
+8. Environment Variables
+9. Seed Data
+10. Run Instructions

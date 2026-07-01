@@ -1,0 +1,19 @@
+{
+  "name": "docmind-ai",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "packageManager": "npm@10.2.4",
+  "devDependencies": {
+    "turbo": "^2.10.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
