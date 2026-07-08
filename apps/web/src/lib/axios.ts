@@ -1,12 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
-  headers: { 'Content-Type': 'application/json' },
+  baseURL: "http://localhost:3001/api/v1",
+  headers: { "Content-Type": "application/json" },
+  timeout: 45000,
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -17,9 +18,9 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("activeTipePengguna");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   },

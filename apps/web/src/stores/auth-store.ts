@@ -1,53 +1,50 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-interface User {
+export interface User {
   id: string;
   email: string;
   name: string;
   role: string;
-  createdAt?: string;
+  createdAt: string;
 }
 
-interface AuthState {
+interface AuthStore {
   user: User | null;
-  token: string | null;
-  isLoading: boolean;
-  setUser: (user: User) => void;
-  setToken: (token: string) => void;
+  accessToken: string | null;
+  isAuthenticated: boolean;
+  setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
-  hydrate: () => void;
+  loadFromStorage: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
-  token: null,
-  isLoading: true,
+  accessToken: null,
+  isAuthenticated: false,
 
-  setUser: (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    set({ user });
-  },
-
-  setToken: (token) => {
-    localStorage.setItem('accessToken', token);
-    set({ token });
+  setAuth: (user, accessToken, _refreshToken) => {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("user", JSON.stringify(user));
+    set({ user, accessToken, isAuthenticated: true });
   },
 
   logout: () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    set({ user: null, token: null });
-    window.location.href = '/login';
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    set({ user: null, accessToken: null, isAuthenticated: false });
   },
 
-  hydrate: () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const userStr = localStorage.getItem('user');
-      const user = userStr ? JSON.parse(userStr) : null;
-      set({ user, token, isLoading: false });
-    } catch {
-      set({ isLoading: false });
+  loadFromStorage: () => {
+    const token = localStorage.getItem("accessToken");
+    const userStr = localStorage.getItem("user");
+    if (token && userStr) {
+      try {
+        const user = JSON.parse(userStr) as User;
+        set({ user, accessToken: token, isAuthenticated: true });
+      } catch {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+      }
     }
   },
 }));
