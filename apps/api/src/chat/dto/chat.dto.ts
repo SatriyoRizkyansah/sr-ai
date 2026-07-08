@@ -15,3 +15,9 @@ export class SendMessageDto {
   @IsString({ each: true })
   documentIds?: string[];
 }
+
+export class UpdateSessionDto {
+  @IsOptional()
+  @IsString()
+  title?: string;
+}

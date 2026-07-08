@@ -23,7 +23,11 @@ export class AiService {
 
   async ragChat(
     query: string,
-    contextChunks: { content: string; documentTitle?: string; score?: number }[],
+    contextChunks: {
+      content: string;
+      documentTitle?: string;
+      score?: number;
+    }[],
     chatHistory?: { role: string; content: string }[],
   ) {
     if (!contextChunks || contextChunks.length === 0) {
@@ -46,14 +50,21 @@ Do NOT try to answer the question from your own knowledge. Just guide the user t
     }
 
     const context = contextChunks
-      .map((c, i) => `[Source ${i + 1}${c.documentTitle ? `: ${c.documentTitle}` : ''}]\n${c.content}`)
+      .map(
+        (c, i) =>
+          `[Source ${i + 1}${c.documentTitle ? `: ${c.documentTitle}` : ''}]\n${c.content}`,
+      )
       .join('\n\n');
 
-    const systemPrompt = `You are DocMind AI, an intelligent document assistant. Answer questions STRICTLY based on the provided context below. 
+    const systemPrompt = `You are DocMind AI, an intelligent document assistant. Answer questions STRICTLY based on the provided context below.
 
 Rules:
 - If the context does NOT contain information to answer the question, say "I don't have enough information about that in the uploaded documents." — do NOT make up answers.
-- Always cite sources using the EXACT format: [Source N: Document Title] at the end of the relevant sentence.
+- Do NOT include [Source N: ...] citations in your response. Just answer naturally.
+- Format your response using clean markdown:
+  - Use **bold** for key terms or category names
+  - Use bullet points (- ) for lists of items or facts
+  - Keep each bullet point short and clear (one line each)
 - Be concise and accurate.
 - Use the same language as the user's question.
 
