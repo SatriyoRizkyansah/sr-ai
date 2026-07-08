@@ -345,3 +345,61 @@ body {
   background: #1f2937;
   color: #f9fafb;
 }
+
+/* Markdown content styling */
+.prose code {
+  font-size: 0.875em;
+  font-weight: 400;
+}
+
+.prose pre code {
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.prose pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose pre::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.prose pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.prose pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Better list styling */
+.prose ul > li::marker {
+  color: #6b7280;
+}
+
+.dark .prose ul > li::marker {
+  color: #9ca3af;
+}
+
+.prose ol > li::marker {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.dark .prose ol > li::marker {
+  color: #9ca3af;
+}

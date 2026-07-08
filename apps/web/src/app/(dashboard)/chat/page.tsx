@@ -7,6 +7,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { CommandPalette } from "@/components/command-palette";
 import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
+import { MessageContent } from "@/components/message-content";
 import { MessageSquare, Send, Loader2, FileText, Sparkles } from "lucide-react";
 
 interface Session {
@@ -27,7 +28,7 @@ interface Message {
 
 export default function ChatPage() {
   const router = useRouter();
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, _hydrated } = useAuthStore();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -40,12 +41,13 @@ export default function ChatPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
+    if (!_hydrated) return; // Wait for hydration
     if (!isAuthenticated) {
       router.push("/login");
       return;
     }
     fetchSessions();
-  }, [isAuthenticated, router]);
+  }, [_hydrated, isAuthenticated, router]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -156,12 +158,8 @@ export default function ChatPage() {
         <Sidebar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          sessions={sessions}
           activeSessionId={activeSessionId}
           onSessionSelect={selectSession}
-          onSessionDelete={deleteSession}
-          onCreateSession={createSession}
-          loadingSessions={loadingSessions}
         />
 
         <main className="flex-1 flex flex-col min-w-0 relative bg-white dark:bg-gray-950">
@@ -195,43 +193,50 @@ export default function ChatPage() {
                   messages.map((msg, idx) => (
                     <div 
                       key={msg.id} 
-                      className={`py-8 group ${
-                        msg.role === "ASSISTANT" ? "bg-gray-50/50 dark:bg-gray-900/30" : "bg-white dark:bg-gray-950"
+                      className={`py-6 ${
+                        msg.role === "ASSISTANT" ? "bg-gray-50/50 dark:bg-gray-900/30" : ""
                       } ${idx === 0 ? "pt-6" : ""}`}
                     >
-                      <div className="flex gap-6 max-w-3xl mx-auto">
-                        <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-semibold text-sm">
-                          {msg.role === "USER" ? (
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center font-semibold text-sm">
-                              {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                      {msg.role === "USER" ? (
+                        // User Message - Right Aligned
+                        <div className="flex justify-end max-w-3xl mx-auto px-4">
+                          <div className="max-w-[80%] flex flex-col items-end gap-2">
+                            <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-sm">
+                              <p className="text-[15px] leading-7 whitespace-pre-wrap">
+                                {msg.content}
+                              </p>
                             </div>
-                          ) : (
+                            <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
+                              <span>{user?.name || "You"}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        // Assistant Message - Left Aligned
+                        <div className="flex gap-6 max-w-3xl mx-auto px-4">
+                          <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center">
                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
                               <Sparkles size={18} className="text-white" strokeWidth={2.5} />
                             </div>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0 pt-1">
-                          <div className="prose prose-sm max-w-none dark:prose-invert">
-                            <p className="text-[15px] leading-7 text-gray-800 dark:text-gray-200 whitespace-pre-wrap m-0">
-                              {msg.content}
-                            </p>
                           </div>
-                          {msg.citations && (
-                            <div className="mt-4 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                              <FileText size={14} strokeWidth={2} />
-                              <span>Sources referenced</span>
-                            </div>
-                          )}
+                          <div className="flex-1 min-w-0 pt-1">
+                            <MessageContent content={msg.content} />
+                            {msg.citations && (
+                              <div className="mt-4 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                                <FileText size={14} strokeWidth={2} />
+                                <span>Sources referenced</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   ))
                 )}
                 
                 {sending && (
                   <div className="py-8 bg-gray-50/50 dark:bg-gray-900/30">
-                    <div className="flex gap-6 max-w-3xl mx-auto">
+                    <div className="flex gap-6 max-w-3xl mx-auto px-4">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center flex-shrink-0">
                         <Sparkles size={18} className="text-white" strokeWidth={2.5} />
                       </div>
