@@ -1,9 +1,7 @@
 "use client";
 
 import { useThemeStore } from "@/stores/theme-store";
-import { 
-  PanelLeft, Sparkles, Command, Moon, Sun, BrainCircuit, Terminal
-} from "lucide-react";
+import { PanelLeft, Sparkles, Command, Moon, Sun, BrainCircuit, Terminal } from "lucide-react";
 
 interface NavbarProps {
   sidebarOpen: boolean;
@@ -12,27 +10,22 @@ interface NavbarProps {
   onShowLogs?: () => void;
 }
 
-export function Navbar({ sidebarOpen, setSidebarOpen, title = "Knowa", onShowLogs }: NavbarProps) {
+export function Navbar({ sidebarOpen, setSidebarOpen, title = "", onShowLogs }: NavbarProps) {
   const { theme, toggleTheme } = useThemeStore();
 
   return (
     <header className="h-[60px] border-b border-gray-100 dark:border-gray-800 flex items-center justify-between px-4 flex-shrink-0 bg-white dark:bg-gray-950">
       <div className="flex items-center gap-2">
         {!sidebarOpen && (
-          <button 
-            onClick={() => setSidebarOpen(true)}
-            className="h-10 w-10 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors"
-          >
+          <button onClick={() => setSidebarOpen(true)} className="h-10 w-10 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors">
             <PanelLeft size={20} strokeWidth={2} />
           </button>
         )}
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 flex items-center justify-center">
+          <div className="w-40 h-100 flex items-center justify-center">
             <img src="/assets/logo/knowa-logo.png" alt="Knowa Logo" className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {title}
-          </h1>
+          <h1 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h1>
         </div>
       </div>
 
@@ -51,11 +44,7 @@ export function Navbar({ sidebarOpen, setSidebarOpen, title = "Knowa", onShowLog
 
         {/* Log Viewer Button */}
         {onShowLogs && (
-          <button
-            onClick={onShowLogs}
-            className="h-9 w-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors"
-            title="View Logs"
-          >
+          <button onClick={onShowLogs} className="h-9 w-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors" title="View Logs">
             <Terminal size={18} strokeWidth={2} />
           </button>
         )}
@@ -66,11 +55,7 @@ export function Navbar({ sidebarOpen, setSidebarOpen, title = "Knowa", onShowLog
           className="h-9 w-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors"
           title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
         >
-          {theme === "light" ? (
-            <Moon size={18} strokeWidth={2} />
-          ) : (
-            <Sun size={18} strokeWidth={2} />
-          )}
+          {theme === "light" ? <Moon size={18} strokeWidth={2} /> : <Sun size={18} strokeWidth={2} />}
         </button>
       </div>
     </header>

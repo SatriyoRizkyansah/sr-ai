@@ -35,10 +35,13 @@ export default function RegisterPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-black dark:via-gray-950 dark:to-black p-12 flex-col justify-between relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
         </div>
 
         {/* Content */}
@@ -54,12 +57,8 @@ export default function RegisterPage() {
           </div>
 
           <div className="mt-16 space-y-6 max-w-md">
-            <h2 className="text-4xl font-bold text-white leading-tight">
-              Request System Access
-            </h2>
-            <p className="text-gray-400 text-lg leading-relaxed">
-              Join your team in accessing our enterprise document intelligence platform.
-            </p>
+            <h2 className="text-4xl font-bold text-white leading-tight">Request System Access</h2>
+            <p className="text-gray-400 text-lg leading-relaxed">Join your team in accessing our enterprise document intelligence platform.</p>
 
             <div className="pt-8 space-y-4">
               <div className="flex items-start gap-3">
@@ -87,7 +86,8 @@ export default function RegisterPage() {
         {/* Footer */}
         <div className="relative z-10">
           <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Your Company Name. All rights reserved.<br />
+            © {new Date().getFullYear()} Knowa. All rights reserved.
+            <br />
             Internal use only. Authorized personnel only.
           </p>
         </div>
@@ -108,9 +108,7 @@ export default function RegisterPage() {
           {/* Form Header */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Request Access</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Create your account to access the system
-            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Create your account to access the system</p>
           </div>
 
           {/* Registration Form */}
@@ -124,9 +122,7 @@ export default function RegisterPage() {
               )}
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  Full Name
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <User size={18} className="text-gray-400" strokeWidth={2} />
@@ -144,9 +140,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  Corporate Email
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Corporate Email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Mail size={18} className="text-gray-400" strokeWidth={2} />
@@ -164,9 +158,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  Password
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Lock size={18} className="text-gray-400" strokeWidth={2} />
@@ -208,26 +200,18 @@ export default function RegisterPage() {
           <div className="mt-6 text-center space-y-3">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have access?{" "}
-              <Link 
-                href="/login" 
-                className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
-              >
+              <Link href="/login" className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
                 Sign In
               </Link>
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-500">
-              Account approval typically takes 1-2 business days
-            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">Account approval typically takes 1-2 business days</p>
           </div>
 
           {/* Security Notice */}
           <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
             <div className="flex items-start gap-2">
               <Shield size={16} className="text-gray-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
-              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                By registering, you acknowledge that you are an authorized employee and agree to comply 
-                with company IT policies and data security guidelines.
-              </p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">By registering, you acknowledge that you are an authorized employee and agree to comply with company IT policies and data security guidelines.</p>
             </div>
           </div>
         </div>

@@ -35,10 +35,13 @@ export default function LoginPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-black dark:via-gray-950 dark:to-black p-12 flex-col justify-between relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
         </div>
 
         {/* Content */}
@@ -54,14 +57,10 @@ export default function LoginPage() {
           </div>
 
           <div className="mt-16 space-y-6 max-w-md">
-            <h2 className="text-4xl font-bold text-white leading-tight">
-              Enterprise Document Intelligence Platform
-            </h2>
-            <p className="text-gray-400 text-lg leading-relaxed">
-              Advanced RAG-powered system for internal document management and AI-assisted knowledge retrieval.
-            </p>
+            <h2 className="text-4xl font-bold text-white leading-tight">Document Intelligence Platform</h2>
+            {/* <p className="text-gray-400 text-lg leading-relaxed">Advanced RAG-powered system for internal document management and AI-assisted knowledge retrieval.</p> */}
 
-            <div className="pt-8 space-y-4">
+            {/* <div className="pt-8 space-y-4">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Shield size={16} className="text-emerald-400" strokeWidth={2} />
@@ -80,14 +79,15 @@ export default function LoginPage() {
                   <p className="text-sm text-gray-400">AI-powered semantic search across all documents</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* Footer */}
         <div className="relative z-10">
           <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Your Company Name. All rights reserved.<br />
+            © {new Date().getFullYear()} Knowa. All rights reserved.
+            <br />
             Internal use only. Authorized personnel only.
           </p>
         </div>
@@ -108,9 +108,7 @@ export default function LoginPage() {
           {/* Form Header */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Sign In</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Access the internal document management system
-            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Access the internal document management system</p>
           </div>
 
           {/* Login Form */}
@@ -124,9 +122,7 @@ export default function LoginPage() {
               )}
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  Corporate Email
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Corporate Email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Mail size={18} className="text-gray-400" strokeWidth={2} />
@@ -144,9 +140,7 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  Password
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Lock size={18} className="text-gray-400" strokeWidth={2} />
@@ -187,26 +181,20 @@ export default function LoginPage() {
           <div className="mt-6 text-center space-y-3">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Need access?{" "}
-              <Link 
-                href="/register" 
-                className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
-              >
+              <Link href="/register" className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
                 Request Account
               </Link>
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-500">
+            {/* <p className="text-xs text-gray-500 dark:text-gray-500">
               For support, contact IT Department: <span className="font-mono">support@company.com</span>
-            </p>
+            </p> */}
           </div>
 
           {/* Security Notice */}
           <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
             <div className="flex items-start gap-2">
               <Shield size={16} className="text-gray-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
-              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                This system is for authorized use only. All activities are monitored and logged.
-                Unauthorized access attempts will be reported.
-              </p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">This system is for authorized use only. All activities are monitored and logged. Unauthorized access attempts will be reported.</p>
             </div>
           </div>
         </div>

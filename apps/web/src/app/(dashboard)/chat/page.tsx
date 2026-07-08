@@ -158,12 +158,7 @@ export default function ChatPage() {
       <CommandPalette />
       <LogViewerModal open={showLogModal} onClose={() => setShowLogModal(false)} />
       <div className="h-screen bg-white dark:bg-gray-950 flex overflow-hidden">
-        <Sidebar
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          activeSessionId={activeSessionId}
-          onSessionSelect={selectSession}
-        />
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} activeSessionId={activeSessionId} onSessionSelect={selectSession} />
 
         <main className="flex-1 flex flex-col min-w-0 relative bg-white dark:bg-gray-950">
           <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} onShowLogs={() => setShowLogModal(true)} />
@@ -171,13 +166,11 @@ export default function ChatPage() {
           <div className="flex-1 overflow-y-auto custom-scrollbar bg-white dark:bg-gray-950">
             {!activeSessionId ? (
               <div className="flex flex-col items-center justify-center py-32 text-center">
-                <div className="w-32 h-32 flex items-center justify-center mb-6">
+                <div className="w-100 h-32 flex items-center justify-center mb-6">
                   <img src="/assets/logo/knowa-logo.png" alt="Knowa Logo" className="w-full h-full object-contain" />
                 </div>
                 <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-3">How can I help you today?</h2>
-                <p className="text-gray-500 dark:text-gray-400 text-center max-w-md mb-8">
-                  Ask me anything about your documents. I'll search through them using advanced RAG technology.
-                </p>
+                <p className="text-gray-500 dark:text-gray-400 text-center max-w-md mb-8">Ask me anything about your documents. I'll search through them using advanced RAG technology.</p>
               </div>
             ) : loadingMessages ? (
               <div className="flex justify-center py-12">
@@ -194,20 +187,13 @@ export default function ChatPage() {
                   </div>
                 ) : (
                   messages.map((msg, idx) => (
-                    <div 
-                      key={msg.id} 
-                      className={`py-6 ${
-                        msg.role === "ASSISTANT" ? "bg-gray-50/50 dark:bg-gray-900/30" : ""
-                      } ${idx === 0 ? "pt-6" : ""}`}
-                    >
+                    <div key={msg.id} className={`py-6 ${msg.role === "ASSISTANT" ? "bg-gray-50/50 dark:bg-gray-900/30" : ""} ${idx === 0 ? "pt-6" : ""}`}>
                       {msg.role === "USER" ? (
                         // User Message - Right Aligned
                         <div className="flex justify-end max-w-3xl mx-auto px-4">
                           <div className="max-w-[80%] flex flex-col items-end gap-2">
                             <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-sm">
-                              <p className="text-[15px] leading-7 whitespace-pre-wrap">
-                                {msg.content}
-                              </p>
+                              <p className="text-[15px] leading-7 whitespace-pre-wrap">{msg.content}</p>
                             </div>
                             <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
                               <span>{user?.name || "You"}</span>
@@ -236,7 +222,7 @@ export default function ChatPage() {
                     </div>
                   ))
                 )}
-                
+
                 {sending && (
                   <div className="py-8 bg-gray-50/50 dark:bg-gray-900/30">
                     <div className="flex gap-6 max-w-3xl mx-auto px-4">
@@ -253,7 +239,7 @@ export default function ChatPage() {
                     </div>
                   </div>
                 )}
-                
+
                 <div ref={messagesEndRef} />
               </div>
             )}
@@ -278,16 +264,10 @@ export default function ChatPage() {
                     disabled={!input.trim() || sending}
                     className="absolute right-3 bottom-3 w-8 h-8 rounded-full bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 disabled:bg-gray-200 dark:disabled:bg-gray-700 disabled:cursor-not-allowed text-white dark:text-black flex items-center justify-center transition-all"
                   >
-                    {sending ? (
-                      <Loader2 size={16} className="animate-spin" strokeWidth={2.5} />
-                    ) : (
-                      <Send size={16} className="ml-0.5" strokeWidth={2.5} />
-                    )}
+                    {sending ? <Loader2 size={16} className="animate-spin" strokeWidth={2.5} /> : <Send size={16} className="ml-0.5" strokeWidth={2.5} />}
                   </button>
                 </div>
-                <p className="text-xs text-gray-400 dark:text-gray-500 text-center mt-3">
-                  Knowa can make mistakes. Check important info.
-                </p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 text-center mt-3">Knowa can make mistakes. Check important info.</p>
               </div>
             </div>
           )}
