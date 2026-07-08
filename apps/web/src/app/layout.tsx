@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DocMind AI",
-  description: "AI-powered document assistant with RAG",
+  title: "Knowa - AI Knowledge Assistant",
+  description: "Enterprise document intelligence platform with RAG technology",
 };
 
 export default function RootLayout({

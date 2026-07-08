@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import api from "@/lib/axios";
 import { useAuthStore } from "@/stores/auth-store";
-import { ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { Loader2, Shield, Lock, Mail, User } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -30,105 +30,206 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950 p-4">
-      <div className="w-full max-w-sm">
-        {/* Logo & Title */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 mb-6 group-hover:scale-110 transition-transform">
-            <Sparkles size={24} className="text-white" strokeWidth={2.5} />
-          </div>
-          <h1 className="text-[28px] font-semibold text-gray-900 dark:text-white mb-2 tracking-tight">Create your account</h1>
-          <p className="text-[15px] text-gray-600 dark:text-gray-400">Get started with DocMind AI</p>
+    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950">
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-black dark:via-gray-950 dark:to-black p-12 flex-col justify-between relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+            backgroundSize: '40px 40px'
+          }} />
         </div>
 
-        {/* Form Card */}
-        <div className="bg-white dark:bg-gray-900/50 rounded-xl border border-gray-200/60 dark:border-gray-800/60 p-6 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="px-3 py-2.5 bg-red-50 dark:bg-red-500/10 border border-red-200/60 dark:border-red-500/20 text-red-700 dark:text-red-400 text-sm rounded-lg">
-                {error}
+        {/* Content */}
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-14 h-14 flex items-center justify-center">
+              <img src="/assets/logo/knowa-logo.png" alt="Knowa Logo" className="w-full h-full object-contain" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-white">Knowa</h1>
+              <p className="text-xs text-gray-400">AI Knowledge Assistant</p>
+            </div>
+          </div>
+
+          <div className="mt-16 space-y-6 max-w-md">
+            <h2 className="text-4xl font-bold text-white leading-tight">
+              Request System Access
+            </h2>
+            <p className="text-gray-400 text-lg leading-relaxed">
+              Join your team in accessing our enterprise document intelligence platform.
+            </p>
+
+            <div className="pt-8 space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Shield size={16} className="text-emerald-400" strokeWidth={2} />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold mb-1">Enterprise Security</h3>
+                  <p className="text-sm text-gray-400">All accounts are verified by IT administration</p>
+                </div>
               </div>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Full name</label>
-              <input
-                type="text"
-                className="w-full px-3 py-2.5 bg-white dark:bg-gray-800/50 border border-gray-200/60 dark:border-gray-700/60 rounded-lg text-[15px] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-all"
-                placeholder="Enter your name"
-                required
-                autoComplete="name"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Lock size={16} className="text-blue-400" strokeWidth={2} />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold mb-1">Team Collaboration</h3>
+                  <p className="text-sm text-gray-400">Work together with department colleagues</p>
+                </div>
+              </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email address</label>
-              <input
-                type="email"
-                className="w-full px-3 py-2.5 bg-white dark:bg-gray-800/50 border border-gray-200/60 dark:border-gray-700/60 rounded-lg text-[15px] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-all"
-                placeholder="you@example.com"
-                required
-                autoComplete="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Password</label>
-              <input
-                type="password"
-                className="w-full px-3 py-2.5 bg-white dark:bg-gray-800/50 border border-gray-200/60 dark:border-gray-700/60 rounded-lg text-[15px] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-all"
-                placeholder="At least 6 characters"
-                required
-                minLength={6}
-                autoComplete="new-password"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full h-11 flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-gray-900 rounded-lg transition-all font-medium text-[15px] shadow-sm"
-            >
-              {loading ? (
-                <>
-                  <Loader2 size={18} className="animate-spin" strokeWidth={2} />
-                  <span>Creating account...</span>
-                </>
-              ) : (
-                <>
-                  <span>Continue</span>
-                  <ArrowRight size={18} strokeWidth={2} />
-                </>
-              )}
-            </button>
-          </form>
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-6 text-center">
-          <p className="text-[14px] text-gray-600 dark:text-gray-400">
-            Already have an account?{" "}
-            <Link 
-              href="/login" 
-              className="text-gray-900 dark:text-white hover:underline font-medium inline-flex items-center gap-1 group"
-            >
-              Sign in
-              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" strokeWidth={2} />
-            </Link>
+        <div className="relative z-10">
+          <p className="text-xs text-gray-500">
+            © {new Date().getFullYear()} Your Company Name. All rights reserved.<br />
+            Internal use only. Authorized personnel only.
           </p>
         </div>
+      </div>
 
-        {/* Divider */}
-        <div className="mt-8 pt-6 border-t border-gray-200/60 dark:border-gray-800/60">
-          <p className="text-xs text-center text-gray-500 dark:text-gray-500">
-            By continuing, you agree to DocMind AI&apos;s Terms of Service and Privacy Policy
-          </p>
+      {/* Right Side - Registration Form */}
+      <div className="flex-1 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center mb-8">
+            <div className="inline-flex items-center justify-center mb-4 w-24 h-24">
+              <img src="/assets/logo/knowa-logo.png" alt="Knowa Logo" className="w-full h-full object-contain" />
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Knowa</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">AI Knowledge Assistant</p>
+          </div>
+
+          {/* Form Header */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Request Access</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Create your account to access the system
+            </p>
+          </div>
+
+          {/* Registration Form */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <div className="px-4 py-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-400 text-sm rounded-lg flex items-start gap-2">
+                  <div className="flex-shrink-0 mt-0.5">⚠</div>
+                  <div className="flex-1">{error}</div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <User size={18} className="text-gray-400" strokeWidth={2} />
+                  </div>
+                  <input
+                    type="text"
+                    className="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    placeholder="John Doe"
+                    required
+                    autoComplete="name"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  Corporate Email
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mail size={18} className="text-gray-400" strokeWidth={2} />
+                  </div>
+                  <input
+                    type="email"
+                    className="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    placeholder="your.name@company.com"
+                    required
+                    autoComplete="email"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Lock size={18} className="text-gray-400" strokeWidth={2} />
+                  </div>
+                  <input
+                    type="password"
+                    className="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    placeholder="At least 6 characters"
+                    required
+                    minLength={6}
+                    autoComplete="new-password"
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full h-11 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all font-semibold text-sm shadow-sm"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" strokeWidth={2} />
+                    <span>Creating Account...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Submit Request</span>
+                    <Shield size={16} strokeWidth={2} />
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+
+          {/* Footer Links */}
+          <div className="mt-6 text-center space-y-3">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Already have access?{" "}
+              <Link 
+                href="/login" 
+                className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
+              >
+                Sign In
+              </Link>
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">
+              Account approval typically takes 1-2 business days
+            </p>
+          </div>
+
+          {/* Security Notice */}
+          <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
+            <div className="flex items-start gap-2">
+              <Shield size={16} className="text-gray-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
+              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                By registering, you acknowledge that you are an authorized employee and agree to comply 
+                with company IT policies and data security guidelines.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

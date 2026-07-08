@@ -318,8 +318,8 @@ export default function DocumentsPage() {
                 </div>
               ) : documents.length === 0 ? (
                 <div className="text-center py-20">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-4 shadow-xl">
-                    <FileText size={32} className="text-white" strokeWidth={2.5} />
+                  <div className="w-32 h-32 flex items-center justify-center mx-auto mb-4">
+                    <img src="/assets/logo/knowa-logo.png" alt="Knowa Logo" className="w-full h-full object-contain" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No documents yet</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">

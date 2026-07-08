@@ -12,7 +12,7 @@ interface NavbarProps {
   onShowLogs?: () => void;
 }
 
-export function Navbar({ sidebarOpen, setSidebarOpen, title = "DocMind AI", onShowLogs }: NavbarProps) {
+export function Navbar({ sidebarOpen, setSidebarOpen, title = "Knowa", onShowLogs }: NavbarProps) {
   const { theme, toggleTheme } = useThemeStore();
 
   return (
@@ -27,8 +27,8 @@ export function Navbar({ sidebarOpen, setSidebarOpen, title = "DocMind AI", onSh
           </button>
         )}
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
-            <Sparkles size={16} className="text-white" strokeWidth={2.5} />
+          <div className="w-10 h-10 flex items-center justify-center">
+            <img src="/assets/logo/knowa-logo.png" alt="Knowa Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
             {title}
@@ -72,11 +72,6 @@ export function Navbar({ sidebarOpen, setSidebarOpen, title = "DocMind AI", onSh
             <Sun size={18} strokeWidth={2} />
           )}
         </button>
-
-        {/* Logo/Brand */}
-        <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
-          <BrainCircuit size={18} className="text-white" strokeWidth={2.5} />
-        </div>
       </div>
     </header>
   );

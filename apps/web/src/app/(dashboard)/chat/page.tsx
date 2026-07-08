@@ -170,9 +170,9 @@ export default function ChatPage() {
 
           <div className="flex-1 overflow-y-auto custom-scrollbar bg-white dark:bg-gray-950">
             {!activeSessionId ? (
-              <div className="flex flex-col items-center justify-center h-full px-4 pb-32">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center mb-6 shadow-xl">
-                  <Sparkles size={32} className="text-white" strokeWidth={2.5} />
+              <div className="flex flex-col items-center justify-center py-32 text-center">
+                <div className="w-32 h-32 flex items-center justify-center mb-6">
+                  <img src="/assets/logo/knowa-logo.png" alt="Knowa Logo" className="w-full h-full object-contain" />
                 </div>
                 <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-3">How can I help you today?</h2>
                 <p className="text-gray-500 dark:text-gray-400 text-center max-w-md mb-8">
@@ -267,7 +267,7 @@ export default function ChatPage() {
                     ref={textareaRef}
                     className="w-full px-4 py-4 pr-12 bg-transparent border-0 focus:outline-none resize-none text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-[15px] leading-6 max-h-[200px]"
                     rows={1}
-                    placeholder="Message DocMind AI"
+                    placeholder="Message Knowa"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -286,7 +286,7 @@ export default function ChatPage() {
                   </button>
                 </div>
                 <p className="text-xs text-gray-400 dark:text-gray-500 text-center mt-3">
-                  DocMind AI can make mistakes. Check important info.
+                  Knowa can make mistakes. Check important info.
                 </p>
               </div>
             </div>
