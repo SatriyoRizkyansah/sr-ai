@@ -7,6 +7,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { CommandPalette } from "@/components/command-palette";
 import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
+import LogViewerModal from "@/components/LogViewerModal";
 import { 
   FileText, Upload, Trash2, RefreshCw, File, Loader2, 
   AlertCircle, CheckCircle2, Clock, Search, ChevronDown, ChevronUp,
@@ -43,6 +44,7 @@ export default function DocumentsPage() {
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [expandedDoc, setExpandedDoc] = useState<string | null>(null);
+  const [showLogModal, setShowLogModal] = useState(false);
   const [stats, setStats] = useState({
     totalDocuments: 0,
     totalChunks: 0,
@@ -161,11 +163,12 @@ export default function DocumentsPage() {
   return (
     <>
       <CommandPalette />
+      <LogViewerModal open={showLogModal} onClose={() => setShowLogModal(false)} />
       <div className="h-screen bg-white dark:bg-gray-950 flex overflow-hidden">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="flex-1 flex flex-col min-w-0 bg-white dark:bg-gray-950">
-          <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} title="Documents" />
+          <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} title="Documents" onShowLogs={() => setShowLogModal(true)} />
 
           <div className="flex-1 overflow-auto bg-white dark:bg-gray-950">
             <div className="max-w-7xl mx-auto p-8">

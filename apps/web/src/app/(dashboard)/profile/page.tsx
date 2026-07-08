@@ -7,6 +7,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { CommandPalette } from "@/components/command-palette";
 import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
+import LogViewerModal from "@/components/LogViewerModal";
 import {
   User,
   Mail,
@@ -21,6 +22,7 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [showLogModal, setShowLogModal] = useState(false);
 
   useEffect(() => {
     if (!_hydrated) return; // Wait for hydration
@@ -47,11 +49,12 @@ export default function ProfilePage() {
   return (
     <>
       <CommandPalette />
+      <LogViewerModal open={showLogModal} onClose={() => setShowLogModal(false)} />
       <div className="h-screen bg-white dark:bg-gray-950 flex overflow-hidden">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="flex-1 flex flex-col min-w-0 bg-white dark:bg-gray-950">
-          <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} title="Profile" />
+          <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} title="Profile" onShowLogs={() => setShowLogModal(true)} />
 
           <div className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900">
             {loading ? (

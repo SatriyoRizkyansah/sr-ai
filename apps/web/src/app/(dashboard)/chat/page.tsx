@@ -8,6 +8,7 @@ import { CommandPalette } from "@/components/command-palette";
 import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
 import { MessageContent } from "@/components/message-content";
+import LogViewerModal from "@/components/LogViewerModal";
 import { MessageSquare, Send, Loader2, FileText, Sparkles } from "lucide-react";
 
 interface Session {
@@ -37,6 +38,7 @@ export default function ChatPage() {
   const [loadingSessions, setLoadingSessions] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [showLogModal, setShowLogModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -154,6 +156,7 @@ export default function ChatPage() {
   return (
     <>
       <CommandPalette />
+      <LogViewerModal open={showLogModal} onClose={() => setShowLogModal(false)} />
       <div className="h-screen bg-white dark:bg-gray-950 flex overflow-hidden">
         <Sidebar
           sidebarOpen={sidebarOpen}
@@ -163,7 +166,7 @@ export default function ChatPage() {
         />
 
         <main className="flex-1 flex flex-col min-w-0 relative bg-white dark:bg-gray-950">
-          <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} onShowLogs={() => setShowLogModal(true)} />
 
           <div className="flex-1 overflow-y-auto custom-scrollbar bg-white dark:bg-gray-950">
             {!activeSessionId ? (

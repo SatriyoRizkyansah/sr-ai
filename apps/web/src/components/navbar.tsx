@@ -2,16 +2,17 @@
 
 import { useThemeStore } from "@/stores/theme-store";
 import { 
-  PanelLeft, Sparkles, Command, Moon, Sun, BrainCircuit
+  PanelLeft, Sparkles, Command, Moon, Sun, BrainCircuit, Terminal
 } from "lucide-react";
 
 interface NavbarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
   title?: string;
+  onShowLogs?: () => void;
 }
 
-export function Navbar({ sidebarOpen, setSidebarOpen, title = "DocMind AI" }: NavbarProps) {
+export function Navbar({ sidebarOpen, setSidebarOpen, title = "DocMind AI", onShowLogs }: NavbarProps) {
   const { theme, toggleTheme } = useThemeStore();
 
   return (
@@ -47,6 +48,17 @@ export function Navbar({ sidebarOpen, setSidebarOpen, title = "DocMind AI" }: Na
           <span className="hidden sm:inline">Search</span>
           <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">⌘K</kbd>
         </button>
+
+        {/* Log Viewer Button */}
+        {onShowLogs && (
+          <button
+            onClick={onShowLogs}
+            className="h-9 w-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors"
+            title="View Logs"
+          >
+            <Terminal size={18} strokeWidth={2} />
+          </button>
+        )}
 
         {/* Theme Toggle */}
         <button
