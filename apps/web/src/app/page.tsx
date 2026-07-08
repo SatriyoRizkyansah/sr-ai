@@ -7,15 +7,16 @@ import { Loader2, BrainCircuit } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, _hydrated } = useAuthStore();
 
   useEffect(() => {
+    if (!_hydrated) return;
     if (isAuthenticated) {
       router.replace("/documents");
     } else {
       router.replace("/login");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, _hydrated, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 via-white to-indigo-50">

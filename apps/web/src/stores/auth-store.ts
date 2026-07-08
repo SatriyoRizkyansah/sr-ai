@@ -12,6 +12,7 @@ interface AuthStore {
   user: User | null;
   accessToken: string | null;
   isAuthenticated: boolean;
+  _hydrated: boolean;
   setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
   loadFromStorage: () => void;
@@ -21,11 +22,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   accessToken: null,
   isAuthenticated: false,
+  _hydrated: false,
 
   setAuth: (user, accessToken, _refreshToken) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("user", JSON.stringify(user));
-    set({ user, accessToken, isAuthenticated: true });
+    set({ user, accessToken, isAuthenticated: true, _hydrated: true });
   },
 
   logout: () => {
@@ -40,11 +42,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr) as User;
-        set({ user, accessToken: token, isAuthenticated: true });
+        set({ user, accessToken: token, isAuthenticated: true, _hydrated: true });
+        return;
       } catch {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("user");
       }
     }
+    set({ _hydrated: true });
   },
 }));

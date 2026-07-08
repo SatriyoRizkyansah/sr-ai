@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import api from "@/lib/axios";
 import { useAuthStore } from "@/stores/auth-store";
-import { UserPlus, Loader2, BrainCircuit } from "lucide-react";
+import { UserPlus, Loader2, Sparkles } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function RegisterPage() {
     try {
       const { data } = await api.post("/auth/register", form);
       setAuth(data.user, data.accessToken, data.refreshToken);
-      router.push("/documents");
+      router.push("/chat");
     } catch (err: any) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
@@ -30,48 +30,74 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-4">
-      <div className="w-full max-w-md animate-slide-up">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-4">
+      <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-600 text-white mb-4 shadow-lg shadow-primary-200">
-            <BrainCircuit size="32" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 mb-4 shadow-2xl shadow-emerald-500/30">
+            <Sparkles size={32} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">DocMind AI</h1>
-          <p className="text-gray-500 mt-1">Create your account</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Get started</h1>
+          <p className="text-gray-600 dark:text-gray-400">Create your DocMind AI account</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
-            {error && <div className="px-4 py-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">{error}</div>}
+            {error && <div className="px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm rounded-xl">{error}</div>}
 
             <div>
-              <label className="form-label">Name</label>
-              <input type="text" className="form-input" placeholder="Your name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-shadow"
+                placeholder="Your name"
+                required
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
             </div>
 
             <div>
-              <label className="form-label">Email</label>
-              <input type="email" className="form-input" placeholder="you@example.com" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+              <input
+                type="email"
+                className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-shadow"
+                placeholder="you@example.com"
+                required
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
             </div>
 
             <div>
-              <label className="form-label">Password</label>
-              <input type="password" className="form-input" placeholder="Min. 6 characters" required minLength={6} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
+              <input
+                type="password"
+                className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-shadow"
+                placeholder="Min. 6 characters"
+                required
+                minLength={6}
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+              />
             </div>
 
-            <button type="submit" disabled={loading} className="btn-primary w-full">
-              {loading ? <Loader2 size="18" className="animate-spin" /> : <UserPlus size="18" />}
-              {loading ? "Creating account..." : "Create Account"}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full h-11 flex items-center justify-center gap-2 bg-black hover:bg-gray-800 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-xl transition-colors font-medium"
+            >
+              {loading ? <Loader2 size={18} className="animate-spin" /> : <UserPlus size={18} />}
+              {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+          <Link href="/login" className="text-black dark:text-white hover:underline font-medium">
             Sign in
           </Link>
         </p>
