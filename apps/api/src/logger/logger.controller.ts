@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Delete, Query, UseGuards } from '@nestjs/common';
 import { LoggerService } from './logger.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -18,5 +18,11 @@ export class LoggerController {
       limit: limit ? parseInt(limit, 10) : undefined,
       action,
     });
+  }
+
+  @Delete()
+  clearLogs() {
+    this.loggerService.clear();
+    return { message: 'Logs cleared' };
   }
 }
